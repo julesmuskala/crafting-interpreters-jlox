@@ -1,9 +1,45 @@
-var i = 0;
-
-while(true) {
-    i = i + 1;
-    if (i >= 4) {
-        break;
+fun fizzBuzz(n) {
+    if (n == 0) return;
+    if (n % 3 == 0 and n % 5 == 0) {
+        print "FizzBuzz";
+    } else if (n % 3 == 0) {
+        print "Fizz";
+    } else if (n % 5 == 0) {
+        print "Buzz";
+    } else {
+        print n;
     }
-    print i;
+    return fizzBuzz(n - 1);
 }
+
+class FizzBuzzer {
+    init(n) {
+        this.n = n;
+    }
+
+    doSth() {
+        for (var i = 1; i <= this.n; i = i + 1) {
+            var output = "";
+            if (this.isFizz(i)) output = "Fizz";
+            if (this.isBuzz(i)) output = output + "Buzz";
+            if (!output) output = output + i;
+            print output;
+        }
+    }
+
+    isFizz(n) {
+        return !(n % 3);
+    }
+
+    isBuzz(n) {
+        return !(n % 5);
+    }
+}
+
+var fizzBuzzer = FizzBuzzer(15);
+
+print "Recursive:";
+fizzBuzz(15);
+print "";
+print "Iterative:";
+fizzBuzzer.doSth();

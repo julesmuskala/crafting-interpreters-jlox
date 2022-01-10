@@ -284,6 +284,9 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
                     throw new RuntimeError(expr.operator, "Division by zero.");
                 }
                 return (double) left / (double) right;
+            case PERCENT:
+                checkNumberOperands(expr.operator, left, right);
+                return (double) left % (double) right;
         }
 
         // Unreachable.
