@@ -1,0 +1,19 @@
+class Doughnut {
+  init(state) {
+    this.state = state;
+  }
+
+  cook() {
+    print "Fry until " + this.state + " brown.";
+  }
+}
+
+class BostonCream < Doughnut {
+  cook() {
+    super.cook();
+    print "Pipe full of custard and coat with chocolate.";
+  }
+}
+
+var bostonCream = BostonCream("golden");
+bostonCream.cook();
