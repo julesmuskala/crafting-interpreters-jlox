@@ -1,19 +1,9 @@
-class Doughnut {
-  init(state) {
-    this.state = state;
-  }
+var i = 0;
 
-  cook() {
-    print "Fry until " + this.state + " brown.";
-  }
+while(true) {
+    i = i + 1;
+    if (i >= 4) {
+        break;
+    }
+    print i;
 }
-
-class BostonCream < Doughnut {
-  cook() {
-    super.cook();
-    print "Pipe full of custard and coat with chocolate.";
-  }
-}
-
-var bostonCream = BostonCream("golden");
-bostonCream.cook();

@@ -45,6 +45,7 @@ public class Parser {
         if (match(RETURN)) return returnStatement();
         if (match(WHILE)) return whileStatement();
         if (match(FOR)) return forStatement();
+        if (match(BREAK)) return breakStatement();
         if (match(LEFT_BRACE)) return new Stmt.Block(block());
 
         return expressionStatement();
@@ -188,9 +189,15 @@ public class Parser {
         return body;
     }
 
+    private Stmt breakStatement() {
+        Token keyword = previous();
+        consume(SEMICOLON, "Expect ';' after break.");
+        return new Stmt.Break(keyword);
+    }
+
     private Stmt expressionStatement() {
         Expr value = expression();
-        consume(SEMICOLON, "Expected ';' after value.");
+        consume(SEMICOLON, "Expect ';' after value.");
         return new Stmt.Expression(value);
     }
 

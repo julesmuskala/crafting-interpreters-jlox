@@ -10,6 +10,7 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     private final Stack<Map<String, Boolean>> scopes = new Stack<>();
     private FunctionType currentFunction = FunctionType.NONE;
     private ClassType currentClass = ClassType.NONE;
+    private LoopType currentLoop = LoopType.NONE;
 
     Resolver(Interpreter interpreter) {
         this.interpreter = interpreter;
@@ -26,6 +27,11 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         NONE,
         CLASS,
         SUBCLASS
+    }
+
+    private enum LoopType {
+        NONE,
+        LOOP
     }
 
     @Override
@@ -135,7 +141,23 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     @Override
     public Void visitWhileStmt(Stmt.While stmt) {
         resolve(stmt.condition);
+
+        LoopType enclosingLoop = currentLoop;
+        currentLoop = LoopType.LOOP;
+
         resolve(stmt.body);
+
+        currentLoop = enclosingLoop;
+
+        return null;
+    }
+
+    @Override
+    public Void visitBreakStmt(Stmt.Break stmt) {
+        if (currentLoop != LoopType.LOOP) {
+            Lox.error(stmt.keyword, "Can't break from top-level code.");
+        }
+
         return null;
     }
 
